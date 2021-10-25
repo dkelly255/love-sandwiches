@@ -136,6 +136,7 @@ def f6_calculate_stock_data(data):
 
     for column in data:
         int_column = [int(num) for num in column]
+
         average = sum(int_column) / len(int_column)
         stock_num = average * 1.1
         new_stock_data.append(round(stock_num))
@@ -143,21 +144,44 @@ def f6_calculate_stock_data(data):
     return new_stock_data
 
 
-def f7_main():
-    """
-    Run all program functions
-    """
-    data = f1_get_sales_data()
-    sales_data = [int(num) for num in data]
-    f3_update_worksheet(sales_data, "sales")
-    new_surplus_data = f4_calculate_surplus_data(sales_data)
-    print(new_surplus_data)
-    f3_update_worksheet(new_surplus_data, "surplus")
-    sales_columns = f5_get_last_5_entries_sales()
-    stock_data = f6_calculate_stock_data(sales_columns)
-    f3_update_worksheet(stock_data, "stock")
+# def f7_main():
+#     """
+#     Run all program functions
+#     """
+#     data = f1_get_sales_data()
+#     sales_data = [int(num) for num in data]
+#     f3_update_worksheet(sales_data, "sales")
+    
+#     new_surplus_data = f4_calculate_surplus_data(sales_data)
+#     print(new_surplus_data)
+#     f3_update_worksheet(new_surplus_data, "surplus")
 
-print("Welcome to Love Sandwiches Data Automation")
-f7_main()
+#     sales_columns = f5_get_last_5_entries_sales()
+#     stock_data = f6_calculate_stock_data(sales_columns)
+#     f3_update_worksheet(stock_data, "stock")
+#     return stock_data
 
+# print("Welcome to Love Sandwiches Data Automation")
+# stock_data = f7_main()
 
+print("Test if can retrieve headings row")
+
+full_data = SHEET.worksheet("stock")
+spreadsheet_column_count = len(full_data.col_values(1))
+
+keys = full_data.row_values(1)
+dict_values = full_data.row_values(14)
+
+print(f"spreadsheet length is: {spreadsheet_column_count} columns")
+
+print(f"dictionary keys are: {keys}")
+print(f"dictionary values are: {dict_values}")
+
+output_dictionary = {}
+for key in keys:
+    for value in dict_values:
+        output_dictionary[key] = value
+        dict_values.remove(value)
+        break
+
+print(output_dictionary)
