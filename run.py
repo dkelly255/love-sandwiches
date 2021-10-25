@@ -18,7 +18,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_sandwiches')
 
 
-def get_sales_data():
+def f1_get_sales_data():
     """
     Get sales figures input from the user.
     Run a while loop to collect a valid string of data from the user
@@ -33,15 +33,16 @@ def get_sales_data():
         data_str = input("Enter your data here:\n")
         
         sales_data = data_str.split(",")
-
-        if validate_data(sales_data):
+        print(f"1. data_str (grabbed from user input) = {data_str}")
+        print(f"2. sales_data (converted to a split string)= {sales_data}")
+        if f2_validate_data(sales_data):
             print("Data is valid!")
             break
 
     return sales_data
 
 
-def validate_data(values):
+def f2_validate_data(values):
     """
     Inside the try, converts all string values into integers.
     Raises ValueError if strings cannot be converted into int,
@@ -80,18 +81,18 @@ def validate_data(values):
 #     print("Surplus worksheet updated successfully.\n")
 
 
-def update_worksheet(data, worksheet):
+def f3_update_worksheet(data, worksheet):
     """
     Receives a list of integers to be inserted into a worksheet
     Update the relevant worksheet with the data provided
     """
-    print(f"Updating {worksheet} worksheet...\n")
+    print(f"Updating {worksheet} worKsHeet...\n")
     worksheet_to_update = SHEET.worksheet(worksheet)
     worksheet_to_update.append_row(data)
     print(f"{worksheet} worksheet updated successfully\n")
 
 
-def calculate_surplus_data(sales_row):
+def f4_calculate_surplus_data(sales_row):
     """
     Compare sales with stock and calculate the surplus for each item type.
     The surplus is defined as the sales figure subtracted from the stock:
@@ -110,7 +111,7 @@ def calculate_surplus_data(sales_row):
     return surplus_data
 
 
-def get_last_5_entries_sales():
+def f5_get_last_5_entries_sales():
     """
     Collects columns of data from sales worksheet, collecting
     the last 5 entries for each sandwich and returns the data
@@ -126,7 +127,7 @@ def get_last_5_entries_sales():
     return columns
 
 
-def calculate_stock_data(data):
+def f6_calculate_stock_data(data):
     """
     Calculate the average stock for each item type, adding 10%
     """
@@ -142,19 +143,21 @@ def calculate_stock_data(data):
     return new_stock_data
 
 
-def main():
+def f7_main():
     """
     Run all program functions
     """
-    data = get_sales_data()
+    data = f1_get_sales_data()
     sales_data = [int(num) for num in data]
-    update_worksheet(sales_data, "sales")
-    new_surplus_data = calculate_surplus_data(sales_data)
+    f3_update_worksheet(sales_data, "sales")
+    new_surplus_data = f4_calculate_surplus_data(sales_data)
     print(new_surplus_data)
-    update_worksheet(new_surplus_data, "surplus")
-    sales_columns = get_last_5_entries_sales()
-    stock_data = calculate_stock_data(sales_columns)
-    update_worksheet(stock_data, "stock")
+    f3_update_worksheet(new_surplus_data, "surplus")
+    sales_columns = f5_get_last_5_entries_sales()
+    stock_data = f6_calculate_stock_data(sales_columns)
+    f3_update_worksheet(stock_data, "stock")
 
 print("Welcome to Love Sandwiches Data Automation")
-main()
+f7_main()
+
+
